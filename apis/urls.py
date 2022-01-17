@@ -5,7 +5,7 @@ urlpatterns = [
     path('register/', views.register),
     path('login/', views.login),
     path('users/', views.Persons),
-    path('users/<str:id>/', views.Person),
+    path('users/<str:id>/', views.person),
     path('send-message/<str:sender>/<str:receiver>/', views.send_message),
     path('edit-message/<int:id>/', views.edit_message),
     path('delete-message/<str:id>/', views.delete_message),

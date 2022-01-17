@@ -1,5 +1,5 @@
 from django.db.models.query_utils import Q
-from apis.serialaizers import personSerialaizer
+from apis.serialaizers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from apis.models import Conversation, Message, Person
@@ -78,8 +78,22 @@ def Persons(request):
 @api_view(['GET'])
 def person(request,id):
     _person = Person.objects.get(id=id)
-    serialaze = personSerialaizer(instance=_person,many=False)
-    return Response(serialaze.data)
+    _person_conversations = Conversation.objects.filter(
+            Q(
+                person_1 = _person
+            )|
+            Q(
+                person_2 = _person
+            )
+        )
+    _person_serialaze = personSerialaizer(instance=_person,many=False)
+    _person_conversations_serialaze = conversationSerialaizer(instance=_person_conversations,many=True)
+
+    context = {
+        'person': _person_serialaze.data,
+        'conversations': _person_conversations_serialaze.data,
+    }
+    return Response(context)
 
 @api_view(['POST'])
 def send_message(request,sender,receiver):
