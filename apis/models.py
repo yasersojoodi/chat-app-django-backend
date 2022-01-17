@@ -11,8 +11,6 @@ class Person(models.Model):
     email      = models.EmailField(null=True)
     image      = models.ImageField(upload_to='user-images',null=True,default='user-images/default.png')
     phone      = models.CharField(max_length=200, null=True)
-    conversations = models.CharField(max_length=1000, null=True)
-    contacts      = models.CharField(max_length=1000, null=True)
     is_online     = models.BooleanField(default=False)
     created       = models.DateTimeField(auto_created=True,auto_now_add=True)
     def __str__(self) -> str:
@@ -24,6 +22,7 @@ class Message(models.Model):
     image    = models.ImageField(upload_to='message-images')
     sender   = models.OneToOneField(to=Person,on_delete=models.CASCADE,related_name='sender')
     receiver = models.OneToOneField(to=Person,on_delete=models.CASCADE,related_name='receiver')
+    c_id = models.CharField(max_length=1,null=True)
     created  = models.DateTimeField(auto_now_add=True,auto_created=True)
     def __str__(self) -> str:
         return str(self.sender.username) + ' ----> ' + str(self.receiver.username)
@@ -36,4 +35,4 @@ class Conversation(models.Model):
     created   = models.DateTimeField(auto_created=True,auto_now_add=True)
     is_online = models.BooleanField(default=False)
     def __str__(self) -> str:
-        return self.person_1.username
+        return str(self.person_1.username) +' / '+ str(self.person_2.username)
