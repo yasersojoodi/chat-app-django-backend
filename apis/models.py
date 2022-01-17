@@ -20,8 +20,8 @@ class Message(models.Model):
     id       = models.AutoField(unique=True,primary_key=True)    
     text     = models.TextField(null=True)
     image    = models.ImageField(upload_to='message-images')
-    sender   = models.OneToOneField(to=Person,on_delete=models.CASCADE,related_name='sender')
-    receiver = models.OneToOneField(to=Person,on_delete=models.CASCADE,related_name='receiver')
+    sender   = models.ForeignKey(to=Person,on_delete=models.CASCADE,related_name='sender')
+    receiver = models.ForeignKey(to=Person,on_delete=models.CASCADE,related_name='receiver')
     c_id = models.CharField(max_length=1,null=True)
     created  = models.DateTimeField(auto_now_add=True,auto_created=True)
     def __str__(self) -> str:
@@ -29,8 +29,8 @@ class Message(models.Model):
 
 class Conversation(models.Model):
     id        = models.AutoField(unique=True,primary_key=True)
-    person_1  = models.OneToOneField(Person, on_delete=models.CASCADE,related_name='person_1')
-    person_2  = models.OneToOneField(Person, on_delete=models.CASCADE,related_name='person_2')
+    person_1  = models.ForeignKey(Person, on_delete=models.CASCADE,related_name='person_1')
+    person_2  = models.ForeignKey(Person, on_delete=models.CASCADE,related_name='person_2')
     messages  = models.ManyToManyField(to=Message,blank=True)
     created   = models.DateTimeField(auto_created=True,auto_now_add=True)
     is_online = models.BooleanField(default=False)
