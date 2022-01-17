@@ -22,7 +22,7 @@ class Message(models.Model):
     image    = models.ImageField(upload_to='message-images')
     sender   = models.ForeignKey(to=Person,on_delete=models.CASCADE,related_name='sender')
     receiver = models.ForeignKey(to=Person,on_delete=models.CASCADE,related_name='receiver')
-    c_id = models.CharField(max_length=1,null=True)
+    conversation_id = models.CharField(max_length=1,null=True)
     created  = models.DateTimeField(auto_now_add=True,auto_created=True)
     def __str__(self) -> str:
         return str(self.sender.username) + ' ----> ' + str(self.receiver.username)
